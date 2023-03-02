@@ -18,6 +18,9 @@ const mesh = new THREE.Mesh(geometry, material);
 // mesh.rotation.x = Math.PI * 0.25;
 scene.add(mesh);
 
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 1 })
+gsap.to(mesh.position, { duration: 2, delay: 2, x: -1 });
+
 /*
 const geometryT = new THREE.BoxGeometry(1, 1, 1);
 const materialT = new THREE.MeshBasicMaterial({ color: "green" });
