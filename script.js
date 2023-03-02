@@ -28,6 +28,10 @@ group.add(mesh, meshT);
 group.position.x = 3;
 scene.add(group);
 
+// AxesHelper
+const axesHelper = new THREE.AxesHelper(4);
+scene.add(axesHelper);
+
 // [3] Camera
 const aspect = {
     width: window.innerWidth,
