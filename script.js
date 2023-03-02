@@ -4,7 +4,7 @@ import * as THREE from '/three.module.min.js';
 const scene = new THREE.Scene();
 
 // [2] Group
-const group = new THREE.Group();
+// const group = new THREE.Group();
 
 // Mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -12,13 +12,13 @@ const material = new THREE.MeshBasicMaterial({ color: "purple" });
 const mesh = new THREE.Mesh(geometry, material);
 // mesh.position.x = 1;
 // mesh.position.y = 1;
+// mesh.position.z = 1;
 // mesh.scale.x = 2;
 // mesh.scale.y = 3;
 // mesh.rotation.x = Math.PI * 0.25;
-mesh.position.z = 1;
+scene.add(mesh);
 
-// scene.add(mesh);
-
+/*
 const geometryT = new THREE.BoxGeometry(1, 1, 1);
 const materialT = new THREE.MeshBasicMaterial({ color: "green" });
 const meshT = new THREE.Mesh(geometryT, materialT);
@@ -27,25 +27,21 @@ meshT.position.y = 2;
 group.add(mesh, meshT);
 group.position.x = 3;
 scene.add(group);
+*/
 
 // AxesHelper
+/*
 const axesHelper = new THREE.AxesHelper(4);
 scene.add(axesHelper);
+*/
 
 // [3] Camera
 const aspect = {
     width: window.innerWidth,
     height: window.innerHeight
 }
-const camera = new THREE.PerspectiveCamera(
-    75,
-    aspect.width / aspect.height,
-    1,
-    2000
-);
-camera.position.x = 1;
-camera.position.y = 1;
-camera.position.z = 5;
+const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height,);
+camera.position.z = 3;
 scene.add(camera);
 
 // [4] Renderer
@@ -55,5 +51,25 @@ const canvas = document.querySelector(".draw");
 const renderer = new THREE.WebGLRenderer({ canvas });
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
-// Display what the camera in the scene captured
-renderer.render(scene, camera);
+
+// `Clock` class
+const clock = new THREE.Clock();
+
+// Animate
+const animate = () => {
+    // `getElapsedTime`
+    const elapsedTime = clock.getElapsedTime();
+
+    // Update rotation on X axis & Y axis
+    mesh.rotation.x = elapsedTime;
+    // Rotate the cube a turn per second
+    mesh.rotation.y = elapsedTime * Math.PI * 2;
+
+    // Renderer
+    // Draw what the camera inside the scene captured
+    renderer.render(scene, camera);
+
+    // `requestAnimationFrame`
+    window.requestAnimationFrame(animate);
+};
+animate();
