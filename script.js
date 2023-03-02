@@ -63,10 +63,32 @@ const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
 
+    // mesh.position.x = elapsedTime * 0.25;
+    // mesh.position.y = elapsedTime * 0.25;
+
+    // mesh.position.x = -elapsedTime * 0.25;
+    // mesh.position.y = elapsedTime * 0.25;
+
+    // mesh.position.x = 1 + elapsedTime * 0.25;
+    // mesh.position.y = elapsedTime * 0.25;
+
+    // mesh.position.x = 1 - elapsedTime * 0.25;
+    // mesh.position.y = elapsedTime * 0.25;
+
+    // mesh.position.x = Math.sin(elapsedTime);
+
+    // mesh.position.x = Math.cos(elapsedTime);
+
+    // mesh.position.x = Math.sin(elapsedTime);
+    // mesh.position.y = Math.cos(elapsedTime);
+
+    // mesh.position.x = Math.tan(elapsedTime);
+    // mesh.position.y = Math.tan(elapsedTime);
+
     // Update rotation on X axis & Y axis
-    mesh.rotation.x = elapsedTime;
+    // mesh.rotation.x = elapsedTime;
     // Rotate the cube a turn per second
-    mesh.rotation.y = elapsedTime * Math.PI * 2;
+    // mesh.rotation.y = elapsedTime * Math.PI * 2;
 
     // Renderer
     // Draw what the camera inside the scene captured
