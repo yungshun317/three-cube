@@ -3,40 +3,56 @@ import * as THREE from '/three.module.min.js';
 // [1] Scene
 const scene = new THREE.Scene();
 
-// [2] Group
-// const group = new THREE.Group();
+// [2] Object
 
 // Mesh
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 const material = new THREE.MeshBasicMaterial({ color: "purple" });
-const mesh = new THREE.Mesh(geometry, material);
-// mesh.position.x = 1;
-// mesh.position.y = 1;
-// mesh.position.z = 1;
-// mesh.scale.x = 2;
-// mesh.scale.y = 3;
-// mesh.rotation.x = Math.PI * 0.25;
-scene.add(mesh);
+const purpleMesh = new THREE.Mesh(geometry, material);
+purpleMesh.position.x = 1;
 
-gsap.to(mesh.position, { duration: 1, delay: 1, x: 1 })
-gsap.to(mesh.position, { duration: 2, delay: 2, x: -1 });
+const geometry2 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material2 = new THREE.MeshBasicMaterial({ color: "yellow" });
+const yellowMesh = new THREE.Mesh(geometry2, material2);
+yellowMesh.position.x = -1;
 
-/*
-const geometryT = new THREE.BoxGeometry(1, 1, 1);
-const materialT = new THREE.MeshBasicMaterial({ color: "green" });
-const meshT = new THREE.Mesh(geometryT, materialT);
-meshT.position.y = 2;
+const geometry3 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material3 = new THREE.MeshBasicMaterial({ color: "green" });
+const greenMesh = new THREE.Mesh(geometry3, material3);
 
-group.add(mesh, meshT);
-group.position.x = 3;
-scene.add(group);
-*/
+const geometry4 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material4 = new THREE.MeshBasicMaterial({ color: "white" });
+const whiteMesh = new THREE.Mesh(geometry4, material4);
+whiteMesh.position.set(1, 1, 0);
+// whiteMesh.position.x = 1;
+// whiteMesh.position.y = 1;
+// whiteMesh.position.z = 0;
 
-// AxesHelper
-/*
-const axesHelper = new THREE.AxesHelper(4);
-scene.add(axesHelper);
-*/
+const geomtery5 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material5 = new THREE.MeshBasicMaterial({ color: "pink" });
+const pinkMesh = new THREE.Mesh(geomtery5, material5);
+pinkMesh.position.set(-1, 1, 0);
+
+const geomtery6 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material6 = new THREE.MeshBasicMaterial({ color: "blue" });
+const blueMesh = new THREE.Mesh(geomtery6, material6);
+blueMesh.position.y = 1;
+
+scene.add(purpleMesh, yellowMesh, greenMesh, whiteMesh, pinkMesh, blueMesh);
+
+yellowMesh.lookAt(whiteMesh.position);
+purpleMesh.lookAt(pinkMesh.position);
+pinkMesh.lookAt(greenMesh.position);
+
+const cursor = {
+    x: 0,
+    y: 0,
+};
+window.addEventListener("mousemove", (event) => {
+    cursor.x = event.clientX / window.innerWidth - 0.5;
+    cursor.y = event.clientY / window.innerHeight - 0.5;
+    console.log(cursor.x, cursor.y);
+});
 
 // [3] Camera
 const aspect = {
@@ -63,32 +79,8 @@ const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
 
-    // mesh.position.x = elapsedTime * 0.25;
-    // mesh.position.y = elapsedTime * 0.25;
-
-    // mesh.position.x = -elapsedTime * 0.25;
-    // mesh.position.y = elapsedTime * 0.25;
-
-    // mesh.position.x = 1 + elapsedTime * 0.25;
-    // mesh.position.y = elapsedTime * 0.25;
-
-    // mesh.position.x = 1 - elapsedTime * 0.25;
-    // mesh.position.y = elapsedTime * 0.25;
-
-    // mesh.position.x = Math.sin(elapsedTime);
-
-    // mesh.position.x = Math.cos(elapsedTime);
-
-    // mesh.position.x = Math.sin(elapsedTime);
-    // mesh.position.y = Math.cos(elapsedTime);
-
-    // mesh.position.x = Math.tan(elapsedTime);
-    // mesh.position.y = Math.tan(elapsedTime);
-
-    // Update rotation on X axis & Y axis
-    // mesh.rotation.x = elapsedTime;
-    // Rotate the cube a turn per second
-    // mesh.rotation.y = elapsedTime * Math.PI * 2;
+    // `lookAt`
+    greenMesh.lookAt(new THREE.Vector3(cursor.x, -cursor.y, 1));
 
     // Renderer
     // Draw what the camera inside the scene captured
