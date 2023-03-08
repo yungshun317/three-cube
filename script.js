@@ -1,4 +1,5 @@
 import * as THREE from '/three.module.min.js';
+import { OrbitControls } from "./OrbitControls.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
@@ -32,8 +33,7 @@ const aspect = {
     width: window.innerWidth,
     height: window.innerHeight
 }
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 1000); //
-// const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height,);
+const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height,);
 camera.position.x = 3;
 camera.position.y = 3;
 camera.position.z = 3;
@@ -48,6 +48,13 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
 
+// `OrbitControls`
+const orbitControls = new OrbitControls(camera, canvas);
+orbitControls.autoRotate = true
+orbitControls.autoRotateSpeed = 6.0
+orbitControls.enableDamping = true
+orbitControls.dampingFactor = 0.01
+
 // `Clock` class
 const clock = new THREE.Clock();
 
@@ -55,6 +62,9 @@ const clock = new THREE.Clock();
 const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
+
+    // Update `OrbitControls`
+    orbitControls.update();
 
     // Renderer
     // Draw what the camera inside the scene captured
