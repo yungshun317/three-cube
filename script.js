@@ -19,11 +19,19 @@ window.addEventListener("resize", () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
+
 // [2] Object
 
 // Mesh
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: "purple" });
+const geometry = new THREE.BufferGeometry(1, 1, 2, 2);
+const verticesArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
+const positionAttribute = new THREE.BufferAttribute(verticesArray, 3);
+geometry.setAttribute("position", positionAttribute);
+console.log(geometry);
+
+const material = new THREE.MeshBasicMaterial({ color: "purple", wireframe: true });
 const mesh = new THREE.Mesh(geometry, material);
 
 scene.add(mesh);
@@ -34,9 +42,7 @@ const aspect = {
     height: window.innerHeight
 }
 const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height,);
-camera.position.x = 3;
-camera.position.y = 3;
-camera.position.z = 3;
+camera.position.set(2, 2, 2);
 camera.lookAt(mesh.position);
 scene.add(camera);
 
@@ -50,10 +56,10 @@ renderer.setSize(aspect.width, aspect.height);
 
 // `OrbitControls`
 const orbitControls = new OrbitControls(camera, canvas);
-orbitControls.autoRotate = true
-orbitControls.autoRotateSpeed = 6.0
-orbitControls.enableDamping = true
-orbitControls.dampingFactor = 0.01
+// orbitControls.autoRotate = true;
+// orbitControls.autoRotateSpeed = 6.0;
+orbitControls.enableDamping = true;
+// orbitControls.dampingFactor = 0.01;
 
 // `Clock` class
 const clock = new THREE.Clock();
