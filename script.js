@@ -4,24 +4,18 @@ import { OrbitControls } from "./OrbitControls.js";
 // [1] Scene
 const scene = new THREE.Scene();
 
-// `LoadingManager`
-const loadingManager = new THREE.LoadingManager();
-loadingManager.onStart = () => {
-    console.log("Start");
-}
-loadingManager.onLoad = () => {
-    console.log("Loading...");
-}
-loadingManager.onProgress = () => {
-    console.log("Progress");
-}
-loadingManager.onError = () => {
-    console.log("Error!");
-}
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.set(2, 2, 2);
+scene.add(ambientLight, pointLight);
 
 // `TextureLoader`
-const textureLoader = new THREE.TextureLoader(loadingManager);
+const textureLoader = new THREE.TextureLoader();
 const colorTexture = textureLoader.load("/texture/color.jpg");
+const matcapTexture = textureLoader.load("/texture/mat2.png");
+const bumpTexture= textureLoader.load("/texture/bump.jpg");
+const displacementTexture = textureLoader.load("/texture/displacementMap.jpg");
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -38,15 +32,26 @@ window.addEventListener("resize", () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
-
 // [2] Object
 
 // Mesh
-const geometry = new THREE.PlaneGeometry(1, 1);
+const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
 console.log(geometry);
-const material = new THREE.MeshBasicMaterial({ map: colorTexture });
+
+// `MeshBasicMaterial`
+// const material = new THREE.MeshBasicMaterial();
+const material = new THREE.MeshStandardMaterial();
+material.map = colorTexture;
+// material.wireframe = true;
+// material.color = new THREE.Color("skyblue");
+// material.transparent = true;
+// material.opacity = 0.4;
+// material.side = THREE.DoubleSide;
+// material.visible = false;
+
+// Bump Texture
+material.bumpMap = bumpTexture;
+
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
