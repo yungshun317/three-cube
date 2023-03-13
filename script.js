@@ -50,7 +50,10 @@ material.map = colorTexture;
 // material.visible = false;
 
 // Bump Texture
-material.bumpMap = bumpTexture;
+// material.bumpMap = bumpTexture;
+
+// Displacement Texture
+material.displacementMap = displacementTexture
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
