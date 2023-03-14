@@ -35,13 +35,15 @@ window.addEventListener("resize", () => {
 // [2] Object
 
 // Mesh
-const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+// const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+const geometry = new THREE.TorusGeometry(0.3, 0.2, 32, 32);
 console.log(geometry);
 
 // `MeshBasicMaterial`
 // const material = new THREE.MeshBasicMaterial();
-const material = new THREE.MeshStandardMaterial();
-material.map = colorTexture;
+// const material = new THREE.MeshStandardMaterial();
+const material = new THREE.MeshDepthMaterial();
+// material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
 // material.transparent = true;
@@ -53,7 +55,7 @@ material.map = colorTexture;
 // material.bumpMap = bumpTexture;
 
 // Displacement Texture
-material.displacementMap = displacementTexture
+// material.displacementMap = displacementTexture
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
