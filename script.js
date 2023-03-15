@@ -42,7 +42,8 @@ console.log(geometry);
 // `MeshBasicMaterial`
 // const material = new THREE.MeshBasicMaterial();
 // const material = new THREE.MeshStandardMaterial();
-const material = new THREE.MeshDepthMaterial();
+// const material = new THREE.MeshDepthMaterial();
+const material = new THREE.MeshNormalMaterial();
 // material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
