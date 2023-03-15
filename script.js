@@ -12,10 +12,10 @@ scene.add(ambientLight, pointLight);
 
 // `TextureLoader`
 const textureLoader = new THREE.TextureLoader();
-const colorTexture = textureLoader.load("/texture/color.jpg");
-const matcapTexture = textureLoader.load("/texture/mat2.png");
-const bumpTexture= textureLoader.load("/texture/bump.jpg");
-const displacementTexture = textureLoader.load("/texture/displacementMap.jpg");
+// const colorTexture = textureLoader.load("/texture/color.jpg");
+// const matcapTexture = textureLoader.load("/texture/mat2.png");
+// const bumpTexture= textureLoader.load("/texture/bump.jpg");
+// const displacementTexture = textureLoader.load("/texture/displacementMap.jpg");
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -44,7 +44,8 @@ console.log(geometry);
 // const material = new THREE.MeshStandardMaterial();
 // const material = new THREE.MeshDepthMaterial();
 // const material = new THREE.MeshNormalMaterial();
-const material = new THREE.MeshMatcapMaterial();
+// const material = new THREE.MeshMatcapMaterial();
+const material = new THREE.MeshLambertMaterial();
 // material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
@@ -59,7 +60,8 @@ const material = new THREE.MeshMatcapMaterial();
 // Displacement Texture
 // material.displacementMap = displacementTexture
 
-material.matcap = matcapTexture;
+// MatCap Texture
+// material.matcap = matcapTexture;
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
