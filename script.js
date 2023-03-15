@@ -43,7 +43,8 @@ console.log(geometry);
 // const material = new THREE.MeshBasicMaterial();
 // const material = new THREE.MeshStandardMaterial();
 // const material = new THREE.MeshDepthMaterial();
-const material = new THREE.MeshNormalMaterial();
+// const material = new THREE.MeshNormalMaterial();
+const material = new THREE.MeshMatcapMaterial();
 // material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
@@ -57,6 +58,8 @@ const material = new THREE.MeshNormalMaterial();
 
 // Displacement Texture
 // material.displacementMap = displacementTexture
+
+material.matcap = matcapTexture;
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
