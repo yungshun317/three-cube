@@ -17,6 +17,18 @@ const textureLoader = new THREE.TextureLoader();
 // const bumpTexture= textureLoader.load("/texture/bump.jpg");
 // const displacementTexture = textureLoader.load("/texture/displacementMap.jpg");
 
+// CubeTextureLoader
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+const envTexture = cubeTextureLoader.load([
+    "/texture/env/px.png",
+    "/texture/env/nx.png",
+    "/texture/env/py.png",
+    "/texture/env/ny.png",
+    "/texture/env/pz.png",
+    "/texture/env/nz.png",
+]);
+// scene.background = envTexture;
+
 // Responsive
 window.addEventListener("resize", () => {
     // New size
@@ -36,7 +48,8 @@ window.addEventListener("resize", () => {
 
 // Mesh
 // const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
-const geometry = new THREE.TorusGeometry(0.3, 0.2, 32, 32);
+// const geometry = new THREE.TorusGeometry(0.3, 0.2, 32, 32);
+const geometry = new THREE.SphereGeometry(0.5, 32, 32);
 console.log(geometry);
 
 // `MeshBasicMaterial`
@@ -69,9 +82,10 @@ const material = new THREE.MeshStandardMaterial();
 // material.shininess = 200;
 // material.specular = new THREE.Color("green");
 
-// Standard material
-material.metalness = 0.65;
-material.roughness = 0.5;
+// Cube texture sphere using standard material
+material.metalness = 0.9;
+material.roughness = 0.1;
+material.envMap = envTexture;
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
