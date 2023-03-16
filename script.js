@@ -46,7 +46,8 @@ console.log(geometry);
 // const material = new THREE.MeshNormalMaterial();
 // const material = new THREE.MeshMatcapMaterial();
 // const material = new THREE.MeshLambertMaterial();
-const material = new THREE.MeshPhongMaterial();
+// const material = new THREE.MeshPhongMaterial();
+const material = new THREE.MeshToonMaterial();
 // material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
@@ -64,8 +65,9 @@ const material = new THREE.MeshPhongMaterial();
 // MatCap Texture
 // material.matcap = matcapTexture;
 
-material.shininess = 200;
-material.specular = new THREE.Color("green");
+// Phong Material
+// material.shininess = 200;
+// material.specular = new THREE.Color("green");
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
