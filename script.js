@@ -41,13 +41,13 @@ console.log(geometry);
 
 // `MeshBasicMaterial`
 // const material = new THREE.MeshBasicMaterial();
-// const material = new THREE.MeshStandardMaterial();
+const material = new THREE.MeshStandardMaterial();
 // const material = new THREE.MeshDepthMaterial();
 // const material = new THREE.MeshNormalMaterial();
 // const material = new THREE.MeshMatcapMaterial();
 // const material = new THREE.MeshLambertMaterial();
 // const material = new THREE.MeshPhongMaterial();
-const material = new THREE.MeshToonMaterial();
+// const material = new THREE.MeshToonMaterial();
 // material.map = colorTexture;
 // material.wireframe = true;
 // material.color = new THREE.Color("skyblue");
@@ -56,18 +56,22 @@ const material = new THREE.MeshToonMaterial();
 // material.side = THREE.DoubleSide;
 // material.visible = false;
 
-// Bump Texture
+// Bump texture
 // material.bumpMap = bumpTexture;
 
-// Displacement Texture
+// Displacement texture
 // material.displacementMap = displacementTexture
 
-// MatCap Texture
+// MatCap texture
 // material.matcap = matcapTexture;
 
-// Phong Material
+// Phong material
 // material.shininess = 200;
 // material.specular = new THREE.Color("green");
+
+// Standard material
+material.metalness = 0.65;
+material.roughness = 0.5;
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
