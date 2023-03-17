@@ -1,33 +1,21 @@
 import * as THREE from '/three.module.min.js';
 import { OrbitControls } from "./OrbitControls.js";
+import * as dat from "/node_modules/dat.gui/build/dat.gui.module.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
+
+const gui = new dat.GUI();
+
+const materialColor = {
+    color: 0xffffff,
+};
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 const pointLight = new THREE.PointLight(0xffffff, 0.5);
 pointLight.position.set(2, 2, 2);
 scene.add(ambientLight, pointLight);
-
-// `TextureLoader`
-const textureLoader = new THREE.TextureLoader();
-// const colorTexture = textureLoader.load("/texture/color.jpg");
-// const matcapTexture = textureLoader.load("/texture/mat2.png");
-// const bumpTexture= textureLoader.load("/texture/bump.jpg");
-// const displacementTexture = textureLoader.load("/texture/displacementMap.jpg");
-
-// CubeTextureLoader
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-const envTexture = cubeTextureLoader.load([
-    "/texture/env/px.png",
-    "/texture/env/nx.png",
-    "/texture/env/py.png",
-    "/texture/env/ny.png",
-    "/texture/env/pz.png",
-    "/texture/env/nz.png",
-]);
-// scene.background = envTexture;
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -47,48 +35,20 @@ window.addEventListener("resize", () => {
 // [2] Object
 
 // Mesh
-// const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
-// const geometry = new THREE.TorusGeometry(0.3, 0.2, 32, 32);
-const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
 console.log(geometry);
-
-// `MeshBasicMaterial`
-// const material = new THREE.MeshBasicMaterial();
-const material = new THREE.MeshStandardMaterial();
-// const material = new THREE.MeshDepthMaterial();
-// const material = new THREE.MeshNormalMaterial();
-// const material = new THREE.MeshMatcapMaterial();
-// const material = new THREE.MeshLambertMaterial();
-// const material = new THREE.MeshPhongMaterial();
-// const material = new THREE.MeshToonMaterial();
-// material.map = colorTexture;
-// material.wireframe = true;
-// material.color = new THREE.Color("skyblue");
-// material.transparent = true;
-// material.opacity = 0.4;
-// material.side = THREE.DoubleSide;
-// material.visible = false;
-
-// Bump texture
-// material.bumpMap = bumpTexture;
-
-// Displacement texture
-// material.displacementMap = displacementTexture
-
-// MatCap texture
-// material.matcap = matcapTexture;
-
-// Phong material
-// material.shininess = 200;
-// material.specular = new THREE.Color("green");
-
-// Cube texture sphere using standard material
-material.metalness = 0.9;
-material.roughness = 0.1;
-material.envMap = envTexture;
-
+const material = new THREE.MeshBasicMaterial({ color: "red" });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+// Range
+gui.add(mesh.position, "x").min(-3).max(3).step(0.1).name("X MeshOne");
+// Boolean
+gui.add(material, "wireframe");
+// Color
+gui.addColor(materialColor, "color").onChange(() => {
+    material.color.set(materialColor.color);
+});
 
 // [3] Camera
 const aspect = {
