@@ -12,10 +12,10 @@ const materialColor = {
 };
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-const pointLight = new THREE.PointLight(0xffffff, 0.5);
-pointLight.position.set(2, 2, 2);
-scene.add(ambientLight, pointLight);
+// AmbientLight
+const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
+scene.add(ambientLight);
+gui.add(ambientLight, "intensity", 0, 1, 0.01);
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -35,20 +35,11 @@ window.addEventListener("resize", () => {
 // [2] Object
 
 // Mesh
-const geometry = new THREE.PlaneGeometry(1, 1, 64, 64);
+const geometry = new THREE.PlaneGeometry(10, 10, 64, 64);
 console.log(geometry);
-const material = new THREE.MeshBasicMaterial({ color: "red" });
+const material = new THREE.MeshStandardMaterial();
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
-
-// Range
-gui.add(mesh.position, "x").min(-3).max(3).step(0.1).name("X MeshOne");
-// Boolean
-gui.add(material, "wireframe");
-// Color
-gui.addColor(materialColor, "color").onChange(() => {
-    material.color.set(materialColor.color);
-});
 
 // [3] Camera
 const aspect = {
@@ -57,6 +48,7 @@ const aspect = {
 }
 const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height);
 camera.position.z = 1;
+camera.position.z = 10;
 scene.add(camera);
 
 // [4] Renderer
