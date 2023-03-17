@@ -12,10 +12,19 @@ const materialColor = {
 };
 
 // Lights
+
 // AmbientLight
-const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
-scene.add(ambientLight);
-gui.add(ambientLight, "intensity", 0, 1, 0.01);
+// const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
+// scene.add(ambientLight);
+// gui.add(ambientLight, "intensity", 0, 1, 0.01);
+
+// DirectionalLight
+const directionalLight = new THREE.DirectionalLight("#ffffff", 0.5);
+directionalLight.position.set(0, 5, 5);
+scene.add(directionalLight);
+gui.add(directionalLight, "intensity", 0, 1, 0.01);
+gui.add(directionalLight.position, "x", -3, 3, 0.01);
+gui.add(directionalLight.position, "y", -3, 3, 0.01);
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -47,7 +56,6 @@ const aspect = {
     height: window.innerHeight
 }
 const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height);
-camera.position.z = 1;
 camera.position.z = 10;
 scene.add(camera);
 
