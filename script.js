@@ -27,11 +27,19 @@ const materialColor = {
 // gui.add(directionalLight.position, "y", -3, 3, 0.01);
 
 // HemisphereLight
-const hemisphereLight = new THREE.HemisphereLight("blue", "yellow", 1);
-scene.add(hemisphereLight);
+// const hemisphereLight = new THREE.HemisphereLight("blue", "yellow", 1);
+// scene.add(hemisphereLight);
 
-const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight);
-scene.add(hemisphereLightHelper);
+// const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight);
+// scene.add(hemisphereLightHelper);
+
+// PointLight
+const pointLight = new THREE.PointLight("red", 0.8, 3);
+pointLight.position.set(0, 0, 1);
+gui.add(pointLight.position, "x", -3, 3, 0.01);
+gui.add(pointLight.position, "y", -3, 3, 0.01);
+gui.add(pointLight.position, "z", -3, 3, 0.01);
+scene.add(pointLight);
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -57,8 +65,8 @@ const material = new THREE.MeshStandardMaterial();
 material.side = THREE.DoubleSide;
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
-mesh.rotation.x = 1.57;
-mesh.position.y = 1;
+// mesh.rotation.x = 1.57;
+// mesh.position.y = 1;
 
 // [3] Camera
 const aspect = {
