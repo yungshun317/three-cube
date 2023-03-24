@@ -45,11 +45,22 @@ const materialColor = {
 // scene.add(pointLightHelper);
 
 // RectAreaLight
-const rectAreaLight = new THREE.RectAreaLight("#5D3FD3", 3, 2, 2);
-rectAreaLight.position.z = 0.5;
-gui.add(rectAreaLight, "width", 0, 7, 0.01);
-gui.add(rectAreaLight, "height", 0, 7, 0.01);
-scene.add(rectAreaLight);
+// const rectAreaLight = new THREE.RectAreaLight("#5D3FD3", 3, 2, 2);
+// rectAreaLight.position.z = 0.5;
+// gui.add(rectAreaLight, "width", 0, 7, 0.01);
+// gui.add(rectAreaLight, "height", 0, 7, 0.01);
+// scene.add(rectAreaLight);
+
+// SpotLight
+const spotLight = new THREE.SpotLight("#ffffff", 1, 8, Math.PI * 0.25, 0.1, 1);
+gui.add(spotLight.position, "z", -3, 3, 0.01);
+gui.add(spotLight, "angle", -3, 3, 0.01);
+gui.add(spotLight, "penumbra", -3, 3, 0.01);
+spotLight.position.z = 2;
+scene.add(spotLight);
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
 
 // Responsive
 window.addEventListener("resize", () => {
