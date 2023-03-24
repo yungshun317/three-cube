@@ -34,15 +34,22 @@ const materialColor = {
 // scene.add(hemisphereLightHelper);
 
 // PointLight
-const pointLight = new THREE.PointLight("red", 0.8, 3);
-pointLight.position.set(0, 0, 1);
-gui.add(pointLight.position, "x", -3, 3, 0.01);
-gui.add(pointLight.position, "y", -3, 3, 0.01);
-gui.add(pointLight.position, "z", -3, 3, 0.01);
-scene.add(pointLight);
+// const pointLight = new THREE.PointLight("red", 0.8, 3);
+// pointLight.position.set(0, 0, 1);
+// gui.add(pointLight.position, "x", -3, 3, 0.01);
+// gui.add(pointLight.position, "y", -3, 3, 0.01);
+// gui.add(pointLight.position, "z", -3, 3, 0.01);
+// scene.add(pointLight);
 
-const pointLightHelper = new THREE.PointLightHelper(pointLight);
-scene.add(pointLightHelper);
+// const pointLightHelper = new THREE.PointLightHelper(pointLight);
+// scene.add(pointLightHelper);
+
+// RectAreaLight
+const rectAreaLight = new THREE.RectAreaLight("#5D3FD3", 3, 2, 2);
+rectAreaLight.position.z = 0.5;
+gui.add(rectAreaLight, "width", 0, 7, 0.01);
+gui.add(rectAreaLight, "height", 0, 7, 0.01);
+scene.add(rectAreaLight);
 
 // Responsive
 window.addEventListener("resize", () => {
