@@ -5,7 +5,7 @@ import * as dat from "/node_modules/dat.gui/build/dat.gui.module.js";
 // [1] Scene
 const scene = new THREE.Scene();
 
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 
 const materialColor = {
     color: 0xffffff,
@@ -14,17 +14,21 @@ const materialColor = {
 // Lights
 
 // AmbientLight
-// const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
-// scene.add(ambientLight);
+const ambientLight = new THREE.AmbientLight("#ffffff", 0.35);
+scene.add(ambientLight);
 // gui.add(ambientLight, "intensity", 0, 1, 0.01);
 
 // DirectionalLight
-// const directionalLight = new THREE.DirectionalLight("#ffffff", 0.5);
-// directionalLight.position.set(0, 5, 5);
-// scene.add(directionalLight);
+const directionalLight = new THREE.DirectionalLight("#ffffff", 0.7);
+directionalLight.castShadow = true;
+directionalLight.position.set(0, 2, 0);
+scene.add(directionalLight);
 // gui.add(directionalLight, "intensity", 0, 1, 0.01);
 // gui.add(directionalLight.position, "x", -3, 3, 0.01);
 // gui.add(directionalLight.position, "y", -3, 3, 0.01);
+
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
 
 // HemisphereLight
 // const hemisphereLight = new THREE.HemisphereLight("blue", "yellow", 1);
@@ -52,15 +56,15 @@ const materialColor = {
 // scene.add(rectAreaLight);
 
 // SpotLight
-const spotLight = new THREE.SpotLight("#ffffff", 1, 8, Math.PI * 0.25, 0.1, 1);
-gui.add(spotLight.position, "z", -3, 3, 0.01);
-gui.add(spotLight, "angle", -3, 3, 0.01);
-gui.add(spotLight, "penumbra", -3, 3, 0.01);
-spotLight.position.z = 2;
-scene.add(spotLight);
+// const spotLight = new THREE.SpotLight("#ffffff", 1, 8, Math.PI * 0.25, 0.1, 1);
+// gui.add(spotLight.position, "z", -3, 3, 0.01);
+// gui.add(spotLight, "angle", -3, 3, 0.01);
+// gui.add(spotLight, "penumbra", -3, 3, 0.01);
+// spotLight.position.z = 2;
+// scene.add(spotLight);
 
-const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(spotLightHelper);
+// const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(spotLightHelper);
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -80,14 +84,21 @@ window.addEventListener("resize", () => {
 // [2] Object
 
 // Mesh
-const geometry = new THREE.PlaneGeometry(10, 10, 64, 64);
-console.log(geometry);
-const material = new THREE.MeshStandardMaterial();
-material.side = THREE.DoubleSide;
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-// mesh.rotation.x = 1.57;
-// mesh.position.y = 1;
+const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+console.log(boxGeometry);
+const boxMaterial = new THREE.MeshStandardMaterial();
+const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+boxMesh.castShadow = true;
+boxMesh.position.y = 0.7;
+scene.add(boxMesh);
+
+const planeGeometry = new THREE.PlaneGeometry(2.75, 2.75);
+console.log(planeGeometry);
+const planeMaterial = new THREE.MeshStandardMaterial();
+const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+planeMesh.receiveShadow = true;
+planeMesh.rotation.x = -Math.PI * 0.5;
+scene.add(planeMesh);
 
 // [3] Camera
 const aspect = {
@@ -95,7 +106,8 @@ const aspect = {
     height: window.innerHeight
 }
 const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height);
-camera.position.z = 10;
+camera.position.z = 3;
+camera.position.y = 3;
 scene.add(camera);
 
 // [4] Renderer
@@ -103,6 +115,7 @@ scene.add(camera);
 const canvas = document.querySelector(".draw");
 // Add the `WebGLRenderer`
 const renderer = new THREE.WebGLRenderer({ canvas });
+renderer.shadowMap.enabled = true;
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
 
