@@ -41,6 +41,9 @@ gui.add(pointLight.position, "y", -3, 3, 0.01);
 gui.add(pointLight.position, "z", -3, 3, 0.01);
 scene.add(pointLight);
 
+const pointLightHelper = new THREE.PointLightHelper(pointLight);
+scene.add(pointLightHelper);
+
 // Responsive
 window.addEventListener("resize", () => {
     // New size
