@@ -84,13 +84,20 @@ window.addEventListener("resize", () => {
 // [2] Object
 
 // Mesh
-const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-console.log(boxGeometry);
-const boxMaterial = new THREE.MeshStandardMaterial();
-const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-boxMesh.castShadow = true;
-boxMesh.position.y = 0.7;
-scene.add(boxMesh);
+// const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+// console.log(boxGeometry);
+// const boxMaterial = new THREE.MeshStandardMaterial();
+// const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+// boxMesh.castShadow = true;
+// boxMesh.position.y = 0.7;
+// scene.add(boxMesh);
+
+const torusKnotGeometry = new THREE.TorusKnotGeometry(0.2, 0.05);
+const torusKnotMaterial = new THREE.MeshStandardMaterial();
+const torusKnotMesh = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+torusKnotMesh.castShadow = true;
+torusKnotMesh.position.y = 0.7;
+scene.add(torusKnotMesh);
 
 const planeGeometry = new THREE.PlaneGeometry(2.75, 2.75);
 console.log(planeGeometry);
@@ -106,8 +113,8 @@ const aspect = {
     height: window.innerHeight
 }
 const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height);
-camera.position.z = 3;
-camera.position.y = 3;
+camera.position.z = 2;
+camera.position.y = 2;
 scene.add(camera);
 
 // [4] Renderer
@@ -118,6 +125,10 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.shadowMap.enabled = true;
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
+// renderer.shadowMap.type = THREE.BasicShadowMap;
+// renderer.shadowMap.type = THREE.PCFShadowMap;
+// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.VSMShadowMap;
 
 // `OrbitControls`
 const orbitControls = new OrbitControls(camera, canvas);
@@ -130,6 +141,9 @@ const clock = new THREE.Clock();
 const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
+
+    // boxMesh.position.x = Math.sin(elapsedTime)
+    torusKnotMesh.rotation.x = Math.sin(elapsedTime);
 
     // Update `OrbitControls`
     orbitControls.update();
