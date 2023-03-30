@@ -76,6 +76,10 @@ const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
 
+    // Particles
+    points.rotation.y = elapsedTime * 0.05;
+    points.rotation.x = elapsedTime * 0.05;
+
     // Update `OrbitControls`
     orbitControls.update();
 
