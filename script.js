@@ -1,15 +1,8 @@
 import * as THREE from '/three.module.min.js';
 import { OrbitControls } from "./OrbitControls.js";
-import * as dat from "/node_modules/dat.gui/build/dat.gui.module.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
-
-// const gui = new dat.GUI();
-
-// `TextureLoader`
-const textureLoader = new THREE.TextureLoader();
-const particleTexture = textureLoader.load("/textures/alphaSnow.jpg");
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -27,28 +20,24 @@ window.addEventListener("resize", () => {
 });
 
 // [2] Object
-// Particle
-const geometry = new THREE.BufferGeometry();
-const verticesAmount = 1000;
-const positionArray = new Float32Array(verticesAmount * 3);
-for (let i = 0; i < verticesAmount * 3; i++) {
-    positionArray[i] = (Math.random() - 0.5) * 4;
-}
-geometry.setAttribute("position", new THREE.BufferAttribute(positionArray, 3));
-const material = new THREE.PointsMaterial();
-material.size = 0.02;
-material.transparent = true;
-material.alphaMap = particleTexture;
-material.depthTest = false;
-const points = new THREE.Points(geometry, material);
-scene.add(points);
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial();
+const mesh = new THREE.Mesh(geometry, material);
+mesh.position.x = 1;
+scene.add(mesh);
+
+const geometry2 = new THREE.BoxGeometry();
+const material2 = new THREE.MeshBasicMaterial();
+const mesh2 = new THREE.Mesh(geometry2, material2);
+mesh2.position.x = -1;
+scene.add(mesh2);
 
 // [3] Camera
 const aspect = {
     width: window.innerWidth,
     height: window.innerHeight
 }
-const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height, 0.01, 100);
+const camera = new THREE.PerspectiveCamera(75, aspect.width / aspect.height);
 camera.position.z = 2;
 scene.add(camera);
 
@@ -60,13 +49,51 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
 
+// Raycaster
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+const meshes = [mesh, mesh2];
+const oneIntersectMesh = [];
+window.addEventListener("mousemove", (e) => {
+    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(e.clientY / window.innerWidth) * 2 + 1;
+
+    // Casting ray
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(meshes);
+    for (let i = 0; i < intersects.length; i++) {
+        intersects[i].object.material.color.set(0xff0000);
+    }
+    if (intersects.length > 0) {
+        if (oneIntersectMesh.length < 1) {
+            oneIntersectMesh.push(intersects[0]);
+        }
+        oneIntersectMesh[0].object.material.color.set("red");
+        gsap.to(oneIntersectMesh[0].object.scale, {
+            duration: 0.5,
+            x: 1.25,
+            y: 1.25,
+            z: 1.25,
+        });
+
+        console.log(oneIntersectMesh);
+    } else if (oneIntersectMesh[0] !== undefined) {
+        //intersects.length === 0
+        oneIntersectMesh[0].object.material.color.set("white");
+        gsap.to(oneIntersectMesh[0].object.scale, {
+            duration: 0.5,
+            x: 1,
+            y: 1,
+            z: 1,
+        });
+        oneIntersectMesh.shift();
+    }
+    console.log(intersects);
+});
+
 // `OrbitControls`
 const orbitControls = new OrbitControls(camera, canvas);
 orbitControls.enableDamping = true;
-orbitControls.enableZoom = false;
-orbitControls.enableRotate = false;
-orbitControls.autoRotate = true;
-orbitControls.autoRotateSpeed = 0.2;
 
 // `Clock` class
 const clock = new THREE.Clock();
@@ -75,10 +102,6 @@ const clock = new THREE.Clock();
 const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
-
-    // Particles
-    points.rotation.y = elapsedTime * 0.05;
-    points.rotation.x = elapsedTime * 0.05;
 
     // Update `OrbitControls`
     orbitControls.update();
