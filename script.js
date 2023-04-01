@@ -1,8 +1,15 @@
 import * as THREE from '/three.module.min.js';
 import { OrbitControls } from "./OrbitControls.js";
+import { OBJLoader } from "./OBJLoader.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 2.1);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2.8);
+directionalLight.position.z = 2;
+scene.add(ambientLight, directionalLight);
 
 // Responsive
 window.addEventListener("resize", () => {
@@ -20,6 +27,8 @@ window.addEventListener("resize", () => {
 });
 
 // [2] Object
+const objloader = new OBJLoader();
+
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial();
 const mesh = new THREE.Mesh(geometry, material);
@@ -78,7 +87,7 @@ window.addEventListener("mousemove", (e) => {
 
         console.log(oneIntersectMesh);
     } else if (oneIntersectMesh[0] !== undefined) {
-        //intersects.length === 0
+        // intersects.length === 0
         oneIntersectMesh[0].object.material.color.set("white");
         gsap.to(oneIntersectMesh[0].object.scale, {
             duration: 0.5,
