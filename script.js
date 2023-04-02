@@ -27,19 +27,16 @@ window.addEventListener("resize", () => {
 });
 
 // [2] Object
-const objloader = new OBJLoader();
-
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial();
-const mesh = new THREE.Mesh(geometry, material);
-mesh.position.x = 1;
-scene.add(mesh);
-
-const geometry2 = new THREE.BoxGeometry();
-const material2 = new THREE.MeshBasicMaterial();
-const mesh2 = new THREE.Mesh(geometry2, material2);
-mesh2.position.x = -1;
-scene.add(mesh2);
+// OBJLoader
+const objLoader = new OBJLoader();
+objLoader.load("models/suzan.obj", (object) => {
+    console.log(object);
+    object.position.y = 0;
+    object.children[0].position.z = -3;
+    object.children[0].material = new THREE.MeshNormalMaterial();
+    console.log(object);
+    scene.add(object);
+})
 
 // [3] Camera
 const aspect = {
@@ -54,51 +51,12 @@ scene.add(camera);
 // Select the `Canvas` element
 const canvas = document.querySelector(".draw");
 // Add the `WebGLRenderer`
-const renderer = new THREE.WebGLRenderer({ canvas });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.physicallyCorrectLights = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // Renderer size
 renderer.setSize(aspect.width, aspect.height);
-
-// Raycaster
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
-const meshes = [mesh, mesh2];
-const oneIntersectMesh = [];
-window.addEventListener("mousemove", (e) => {
-    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-    pointer.y = -(e.clientY / window.innerWidth) * 2 + 1;
-
-    // Casting ray
-    raycaster.setFromCamera(pointer, camera);
-    const intersects = raycaster.intersectObjects(meshes);
-    for (let i = 0; i < intersects.length; i++) {
-        intersects[i].object.material.color.set(0xff0000);
-    }
-    if (intersects.length > 0) {
-        if (oneIntersectMesh.length < 1) {
-            oneIntersectMesh.push(intersects[0]);
-        }
-        oneIntersectMesh[0].object.material.color.set("red");
-        gsap.to(oneIntersectMesh[0].object.scale, {
-            duration: 0.5,
-            x: 1.25,
-            y: 1.25,
-            z: 1.25,
-        });
-
-        console.log(oneIntersectMesh);
-    } else if (oneIntersectMesh[0] !== undefined) {
-        // intersects.length === 0
-        oneIntersectMesh[0].object.material.color.set("white");
-        gsap.to(oneIntersectMesh[0].object.scale, {
-            duration: 0.5,
-            x: 1,
-            y: 1,
-            z: 1,
-        });
-        oneIntersectMesh.shift();
-    }
-    console.log(intersects);
-});
 
 // `OrbitControls`
 const orbitControls = new OrbitControls(camera, canvas);
