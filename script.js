@@ -1,6 +1,7 @@
 import * as THREE from '/three.module.min.js';
 import { OrbitControls } from "./OrbitControls.js";
 import { OBJLoader } from "./OBJLoader.js";
+import { GLTFLoader } from "./GLTFLoader.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
@@ -28,6 +29,7 @@ window.addEventListener("resize", () => {
 
 // [2] Object
 // OBJLoader
+/*
 const objLoader = new OBJLoader();
 objLoader.load("models/suzan.obj", (object) => {
     console.log(object);
@@ -37,6 +39,14 @@ objLoader.load("models/suzan.obj", (object) => {
     console.log(object);
     scene.add(object);
 })
+*/
+
+// GLTFLoader
+const gltfLoader = new GLTFLoader();
+gltfLoader.load("models/monkeyglb.glb", (glb) => {
+    scene.add(glb.scene);
+    console.log(glb.scene);
+});
 
 // [3] Camera
 const aspect = {
