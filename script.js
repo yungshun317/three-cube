@@ -51,7 +51,8 @@ gltfLoader.load("models/monkeyglb.glb", (glb) => {
 });
 */
 
-// Load GLTF Model using DRACOLoader
+// Load GLTF Model using `DRACOLoader`
+/*
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/models/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
@@ -59,6 +60,19 @@ console.log(dracoLoader);
 gltfLoader.load("models/2.gltf", (gltf) => {
    scene.add(gltf.scene);
    console.log(gltf.scene);
+});
+*/
+
+// `AnimationMixer`
+let animationMixer = null;
+gltfLoader.load("models/newModel.glb", (glb) => {
+    animationMixer = new THREE.AnimationMixer(glb.scene);
+    const clipAction = animationMixer.clipAction(glb.animations[3]);
+    clipAction.play();
+    glb.scene.position.y = -0.8;
+    scene.add(glb.scene);
+    // glb.scene.scale.set(0.5, 0.5, 0.5);
+    console.log(glb);
 });
 
 // [3] Camera
@@ -87,11 +101,19 @@ orbitControls.enableDamping = true;
 
 // `Clock` class
 const clock = new THREE.Clock();
+let previousTime = 0;
 
 // Animate
 const animate = () => {
     // `getElapsedTime`
     const elapsedTime = clock.getElapsedTime();
+    const frameTime = elapsedTime - previousTime;
+    previousTime = elapsedTime;
+
+    // Update `animationMixer`
+    if (animationMixer) {
+        animationMixer.update(frameTime);
+    }
 
     // Update `OrbitControls`
     orbitControls.update();
