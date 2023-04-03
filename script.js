@@ -2,6 +2,7 @@ import * as THREE from '/three.module.min.js';
 import { OrbitControls } from "./OrbitControls.js";
 import { OBJLoader } from "./OBJLoader.js";
 import { GLTFLoader } from "./GLTFLoader.js";
+import { DRACOLoader } from "./DRACOLoader.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
@@ -43,9 +44,21 @@ objLoader.load("models/suzan.obj", (object) => {
 
 // GLTFLoader
 const gltfLoader = new GLTFLoader();
+/*
 gltfLoader.load("models/monkeyglb.glb", (glb) => {
     scene.add(glb.scene);
     console.log(glb.scene);
+});
+*/
+
+// Load GLTF Model using DRACOLoader
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath("/models/draco/");
+gltfLoader.setDRACOLoader(dracoLoader);
+console.log(dracoLoader);
+gltfLoader.load("models/2.gltf", (gltf) => {
+   scene.add(gltf.scene);
+   console.log(gltf.scene);
 });
 
 // [3] Camera
