@@ -3,6 +3,7 @@ import { OrbitControls } from "./OrbitControls.js";
 import { OBJLoader } from "./OBJLoader.js";
 import { GLTFLoader } from "./GLTFLoader.js";
 import { DRACOLoader } from "./DRACOLoader.js";
+import { FBXLoader } from "./FBXLoader.js";
 
 // [1] Scene
 const scene = new THREE.Scene();
@@ -64,6 +65,7 @@ gltfLoader.load("models/2.gltf", (gltf) => {
 */
 
 // `AnimationMixer`
+/*
 let animationMixer = null;
 gltfLoader.load("models/newModel.glb", (glb) => {
     animationMixer = new THREE.AnimationMixer(glb.scene);
@@ -73,6 +75,20 @@ gltfLoader.load("models/newModel.glb", (glb) => {
     scene.add(glb.scene);
     // glb.scene.scale.set(0.5, 0.5, 0.5);
     console.log(glb);
+});
+*/
+
+// FBXLoader
+const fbxLoader = new FBXLoader();
+let animationMixer = null;
+fbxLoader.load("models/Taunt.fbx", (fbx) => {
+    animationMixer = new THREE.AnimationMixer(fbx);
+    const clipAction = animationMixer.clipAction(fbx.animations[0]);
+    clipAction.play();
+    fbx.scale.set(0.01, 0.01, 0.01);
+    fbx.position.y = -0.8;
+    scene.add(fbx);
+    console.log(fbx)
 });
 
 // [3] Camera
