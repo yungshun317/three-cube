@@ -26,5 +26,5 @@ yarn-error.log*
 .idea
 
 # exclude
-/textures
-/models
+/static/textures
+/static/models
